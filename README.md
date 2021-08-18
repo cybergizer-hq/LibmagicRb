@@ -2,8 +2,6 @@
 Adds ability to check mime-type of a file using the libmagic ([magic(4)](https://man7.org/linux/man-pages/man4/magic.4.html)).
 It uses native extensions.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/libmagic_rb`. To experiment with that code, run `bin/console` for an interactive prompt.
-
 ## Pre-Installation
 On Linux, you need to install libmagic.
 
