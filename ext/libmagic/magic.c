@@ -10,11 +10,38 @@
 #include "params.h"
 #include "definitions.h"
 
+/*
+* Errors
+*/
 VALUE rb_eFileNotFoundError ;
 VALUE rb_eFileNotReadableError ;
 VALUE rb_eInvalidDBError ;
 VALUE rb_eIsDirError ;
 VALUE rb_eFileClosedError ;
+
+// Garbage collect
+void file_free(void **data) {
+	if(*data) {
+		magic_close(*data) ;
+		*data = NULL ;
+	}
+	free(data) ;
+}
+
+// Filetype
+static rb_data_type_t fileType = {
+	.wrap_struct_name = "file",
+
+	.function = {
+		.dmark = NULL,
+		.dfree = file_free,
+	},
+
+	.data = NULL,
+	.flags = RUBY_TYPED_FREE_IMMEDIATELY,
+} ;
+
+#include "globalOpen.h"
 
 #include "validations.h"
 
@@ -58,10 +85,10 @@ VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 
 	// Check if the database is a valid file or not
 	// Raises ruby error which will return.
+	fileReadable(checkPath) ;
 	magic_validate_db(magic, databasePath) ;
 
 	magic_load(magic, databasePath) ;
-
 	const char *mt = magic_file(magic, checkPath) ;
 
 	VALUE retStr = rb_str_new_cstr(mt) ;
@@ -69,29 +96,6 @@ VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 
 	return retStr ;
 }
-
-// Garbage collect
-void file_free(void **data) {
-	if(*data) {
-		magic_close(*data) ;
-		*data = NULL ;
-	}
-	free(data) ;
-}
-
-static rb_data_type_t fileType = {
-	.wrap_struct_name = "file",
-
-	.function = {
-		.dmark = NULL,
-		.dfree = file_free,
-	},
-
-	.data = NULL,
-	.flags = RUBY_TYPED_FREE_IMMEDIATELY,
-} ;
-
-#include "globalOpen.h"
 
 VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {
 	// Database Path

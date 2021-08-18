@@ -32,6 +32,8 @@ VALUE _checkGlobal_(volatile VALUE self) {
 	char *file = StringValuePtr(f) ;
 
 	magic_load(*cookie, database) ;
+
+	fileReadable(file) ;
 	const char *mt = magic_file(*cookie, file) ;
 
 	VALUE retStr = rb_str_new_cstr(mt) ;
