@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 	s.name = "libmagic_rb"
 	s.version = LibmagicRb::VERSION
 	s.authors = ["Cybergizer"]
-	s.email   = %w(cybergizer@protonmail.com)
+	s.email = %w(sourav.goswami@cybergizer.com)
 	s.summary = %q(Check filetype with libmagic)
 	s.description = s.summary
 	s.homepage = "https://github.com/Cybergizer-hq/libmagic_rb/"
