@@ -185,6 +185,10 @@ void Init_main() {
 	rb_define_method(cLibmagicRb, "initialize", rb_libmagicRb_initialize, 1) ;
 
 	rb_define_attr(cLibmagicRb, "closed", 1, 0) ;
+
+	rb_define_attr(cLibmagicRb, "file", 1, 1) ;
+	rb_define_attr(cLibmagicRb, "db", 1, 1) ;
+
 	rb_define_alias(cLibmagicRb, "closed?", "closed") ;
 
 	rb_define_method(cLibmagicRb, "close", _closeGlobal_, 0) ;
