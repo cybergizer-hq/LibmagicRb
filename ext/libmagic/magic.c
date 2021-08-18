@@ -42,8 +42,7 @@ static rb_data_type_t fileType = {
 	.flags = RUBY_TYPED_FREE_IMMEDIATELY,
 } ;
 
-#include "globalOpen.h"
-
+#include "func.h"
 #include "validations.h"
 
 VALUE _check_(volatile VALUE obj, volatile VALUE args) {
