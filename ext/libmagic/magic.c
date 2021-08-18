@@ -181,6 +181,8 @@ void Init_main() {
 	* Singleton Methods
 	*/
 	rb_define_singleton_method(cLibmagicRb, "check", _check_, 1) ;
+	rb_define_singleton_method(cLibmagicRb, "lsmodes", lsmodes, 0) ;
+	rb_define_singleton_method(cLibmagicRb, "lsparams", params, 0) ;
 
 	/*
 	* Instance Methods

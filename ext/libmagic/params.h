@@ -11,7 +11,7 @@ void params(volatile VALUE rb_klass) {
 	#endif
 }
 
-VALUE lsparams() {
+VALUE lsparams(volatile VALUE obj) {
 	VALUE hash = rb_hash_new() ;
 
 	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_PARAM_INDIR_MAX")), UINT2NUM(MAGIC_PARAM_INDIR_MAX)) ;
