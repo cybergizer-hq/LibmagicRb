@@ -84,3 +84,18 @@ VALUE _listGlobal_(volatile VALUE self) {
 	int status = magic_list(*cookie, database) ;
 	return INT2FIX(status) ;
 }
+
+VALUE _setflagsGlobal_(volatile VALUE self, volatile VALUE flags) {
+	unsigned int flag = NUM2UINT(flags) ;
+
+	RB_UNWRAP(cookie) ;
+	int status = magic_setflags(*cookie, flag) ;
+
+	if (status) {
+		return Qnil ;
+	} else {
+		int f = magic_getflags(*cookie) ;
+		rb_ivar_set(self, rb_intern("@mode"), INT2FIX(f)) ;
+		return INT2FIX(f) ;
+	}
+}

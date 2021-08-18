@@ -180,31 +180,41 @@ void Init_main() {
 	/*
 	* Singleton Methods
 	*/
-	rb_define_singleton_method(cLibmagicRb, "_check_", _check_, 1) ;
+	rb_define_singleton_method(cLibmagicRb, "check", _check_, 1) ;
 
 	/*
 	* Instance Methods
 	*/
 	rb_define_alloc_func(cLibmagicRb, initAlloc) ;
 
-
+	// LibmagicRb.new()
 	rb_define_method(cLibmagicRb, "initialize", rb_libmagicRb_initialize, 1) ;
 
+	// Attributes
 	rb_define_attr(cLibmagicRb, "closed", 1, 0) ;
-
+	rb_define_attr(cLibmagicRb, "mode", 1, 0) ;
 	rb_define_attr(cLibmagicRb, "file", 1, 1) ;
 	rb_define_attr(cLibmagicRb, "db", 1, 1) ;
 
+	// Close database
+	rb_define_method(cLibmagicRb, "close", _closeGlobal_, 0) ;
 	rb_define_alias(cLibmagicRb, "closed?", "closed") ;
 
-	rb_define_method(cLibmagicRb, "close", _closeGlobal_, 0) ;
+	// Load database
 	rb_define_method(cLibmagicRb, "load", _loadGlobal_, 1) ;
 
+	// Check for file mimetype
 	rb_define_method(cLibmagicRb, "check", _checkGlobal_, 0) ;
 
+	// Get and set params
 	rb_define_method(cLibmagicRb, "getparam", _getParamGlobal_, 1) ;
 	rb_define_method(cLibmagicRb, "setparam", _setParamGlobal_, 2) ;
 
+	// Set modes dynamically
+	rb_define_method(cLibmagicRb, "setflags", _setflagsGlobal_, 1) ;
+	rb_define_method(cLibmagicRb, "mode=", _setflagsGlobal_, 1) ;
+
+	// Miscellaneous
 	rb_define_method(cLibmagicRb, "magic_buffer", _bufferGlobal_, 1) ;
 	rb_define_method(cLibmagicRb, "magic_list", _listGlobal_, 0) ;
 }
