@@ -1,8 +1,31 @@
 # LibmagicRb
+Adds ability to check mime-type of a file using the libmagic ([magic(4)](https://man7.org/linux/man-pages/man4/magic.4.html)).
+It uses native extensions.
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/libmagic_rb`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-TODO: Delete this and the text above, and describe your gem
+## Pre-Installation
+On Linux, you need to install libmagic.
+
+Arch:
+
+```
+# pacman -S file
+```
+
+Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS:
+
+```
+# apt install libmagic-dev
+```
+
+Fedora:
+
+```
+# yum install file-devel
+```
+
+Mac is currently not supported but may support in the future.
 
 ## Installation
 
@@ -14,30 +37,99 @@ gem 'libmagic_rb'
 
 And then execute:
 
-    $ bundle install
+```
+$ bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install libmagic_rb
+```
+$ gem install libmagic_rb
+```
 
 ## Usage
+The target of this gem is to add mime-type checking easily.
 
-TODO: Write usage instructions here
+Using the LibmagicRb class we can check the mime type, EXIF data and other information of a file.
+This gem packs the compiled magic database as well.
+
+To check a file, you need to pass a hash argument to the FilemagicRb.new():
+
+1. db: Path to the Database (String) (To use the internal database packed by this app, use LibmagicRb::DB)
+2. file: A file to check (String)
+3. mode: Modes of the file (Integer) (Optional, defaults to LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK)
+
+### Example:
+
+```
+require 'libmagic_rb'
+
+cookie = LibmagicRb.new(
+    db: LibmagicRb::DB,
+    file: '/usr/share/backgrounds/myimage.webp',
+    mode: LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK
+)
+
+p cookie # =>    #<LibmagicRb:0x000055cf96d8f868 @db="/home/sourav/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc", @file="/usr/share/backgrounds/myimage.webp", @mode=1106, @closed=false>
+
+# In case The file path needs to be changed
+cookie.file = '/usr/share/backgrounds/vienna-5164602.jpg'
+
+p cookie.file    # => "/usr/share/backgrounds/vienna-5164602.jpg"
+p cookie.db    # => "/home/cybergizer/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc"
+
+cookie.check()    # => image/jpeg; charset=binary
+cookie.close()    # => #<LibmagicRb:0x000055fa77699818 @closed=true, @db="/home/sourav/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc", @file="/usr/share/backgrounds/vienna-5164602.jpg", @mode=1106>
+cookie.closed?() # => true
+```
+
+Example 2:
+```
+require 'libmagic_rb'
+
+cookie = LibmagicRb.new(
+    db: LibmagicRb::DB,
+    file: '/usr/share/backgrounds/vienna-5164602.jpg',
+    mode: LibmagicRb::NONE
+)
+
+cookie.check()    # => "JPEG image data, JFIF standard 1.01, resolution (DPI), density 300x300, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=4, manufacturer=NIKON CORPORATION, model=NIKON D5300], baseline, precision 8, 5959x3973, components 3""
+cookie.close()    # => #<LibmagicRb:0x000055fa77699818 @closed=true, @db="/home/sourav/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc", @file="/usr/share/backgrounds/vienna-5164602.jpg", @mode=1106>
+cookie.closed?() # => true
+```
+
+Notes:
++ It's really **mandatory** to close the cookie (`cookie.close()`). Otherwise, you rely on the GC and can various problems.
++ You can change the file and db on the fly. But you can't change the mode.
++ To list all the modes, please refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html)
+
+### Parameters
+
+#### Getting parameters
+
+```
+cookie.getparam(LibmagicRb::MAGIC_PARAM_REGEX_MAX) # => 8192; but can differ. Returns nil on error.
+```
+
+#### Setting parameters
+```
+cookie.setparam(LibmagicRb::MAGIC_PARAM_REGEX_MAX, 2 ** 14) # => 16384; but can differ. Returns nil on error.
+```
+
+#### Notes:
+
++ To get the parameters, you can refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html).
++ Cookie setparam returns the value after getting the param as well. So you don't need to confirm by calling getparam() again.
++ The maximum size depends on the parameter. But the value that can be passed should not be more than 2 ** 32.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/libmagic_rb. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/libmagic_rb/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at [https://github.com/cybergizer-hq/LibmagicRb](https://github.com/cybergizer-hq/LibmagicRb) This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/libmagic_rb/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the LibmagicRb project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/libmagic_rb/blob/master/CODE_OF_CONDUCT.md).
+The gem is available as open-source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
