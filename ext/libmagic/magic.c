@@ -25,6 +25,7 @@ void file_free(void **data) {
 		magic_close(*data) ;
 		*data = NULL ;
 	}
+
 	free(data) ;
 }
 
@@ -86,15 +87,16 @@ VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 	// Check if the database is a valid file or not
 	// Raises ruby error which will return.
 	fileReadable(checkPath) ;
-	magic_validate_db(magic, databasePath) ;
 
+	magic_validate_db(magic, databasePath) ;
 	magic_load(magic, databasePath) ;
+
 	const char *mt = magic_file(magic, checkPath) ;
 
-	VALUE retStr = rb_str_new_cstr(mt) ;
+	VALUE retVal = mt ? rb_str_new_cstr(mt) : Qnil ;
 	magic_close(magic) ;
 
-	return retStr ;
+	return retVal ;
 }
 
 VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {

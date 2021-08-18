@@ -31,13 +31,13 @@ VALUE _checkGlobal_(volatile VALUE self) {
 	VALUE f = rb_iv_get(self, "@file") ;
 	char *file = StringValuePtr(f) ;
 
+	magic_validate_db(*cookie, database) ;
 	magic_load(*cookie, database) ;
 
 	fileReadable(file) ;
 	const char *mt = magic_file(*cookie, file) ;
 
-	VALUE retStr = rb_str_new_cstr(mt) ;
-	return retStr ;
+	return mt ? rb_str_new_cstr(mt) : Qnil ;
 }
 
 VALUE _getParamGlobal_(volatile VALUE self, volatile VALUE param) {
