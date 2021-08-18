@@ -1,6 +1,6 @@
 # LibmagicRb
 Adds ability to check mime-type of a file using the libmagic ([magic(4)](https://man7.org/linux/man-pages/man4/magic.4.html)).
-It uses native extensions.
+It uses native extensions and it's quite performant.
 
 ## Pre-Installation
 On Linux, you need to install libmagic.
@@ -8,19 +8,19 @@ On Linux, you need to install libmagic.
 ##### Arch:
 
 ```
-# pacman -S file
+# pacman -S file gcc
 ```
 
 #### Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS:
 
 ```
-# apt install libmagic-dev
+# apt install libmagic-dev ruby-dev gcc
 ```
 
 #### Fedora:
 
 ```
-# yum install file-devel
+# yum install file-devel ruby-devel gcc
 ```
 
 Mac is currently not supported but may support in the future.
@@ -57,7 +57,7 @@ To check a file, you need to pass a hash argument to the FilemagicRb.new():
 2. file: A file to check (String)
 3. mode: Modes of the file (Integer) (Optional, defaults to LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK)
 
-### Example:
+### Example 1:
 
 ```
 require 'libmagic_rb'
@@ -81,7 +81,7 @@ cookie.close()    # => #<LibmagicRb:0x000055fa77699818 @closed=true, @db="/home/
 cookie.closed?() # => true
 ```
 
-Example 2:
+### Example 2:
 ```
 require 'libmagic_rb'
 
@@ -97,9 +97,9 @@ cookie.closed?() # => true
 ```
 
 Notes:
-+ It's really **mandatory** to close the cookie (`cookie.close()`) when you are done with the cookie. Otherwise, you rely on the GC and can various problems.
++ It's really **mandatory** to close the cookie (`cookie.close()`) when you are done with the cookie. Otherwise, you rely on the GC and that can cause various problems.
   You can't also use the file after it's closed.
-+ You can change the file and db on the fly. But you can't change the mode.
++ You can change the file and db on the fly. But you can't change the mode. The mode can be assigned only with LibmagicRb.new(db: ..., file: ..., mode: ...)
 + To list all the modes, please refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html).
 
 ### Parameters
