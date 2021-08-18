@@ -55,7 +55,7 @@ To check a file, you need to pass a hash argument to the FilemagicRb.new():
 
 1. db: Path to the Database (String) (To use the internal database packed by this app, use LibmagicRb::DB)
 2. file: A file to check (String)
-3. mode: Modes of the file (Integer) (Optional, defaults to LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK)
+3. mode: Modes of the file (Integer) (Optional, defaults to `LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK`)
 
 ### Example 1:
 
@@ -95,6 +95,21 @@ cookie.check()    # => "JPEG image data, JFIF standard 1.01, resolution (DPI), d
 cookie.close()    # => #<LibmagicRb:0x000055fa77699818 @closed=true, @db="/home/sourav/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc", @file="/usr/share/backgrounds/vienna-5164602.jpg", @mode=1106>
 cookie.closed?() # => true
 ```
+
+### Example 3:
+LibmagicRb also provides a handy singleton method `:check`. You just need to pass the filename and modes:
+
+```
+require 'libmagic_rb'
+
+LibmagicRb.check(file: '/dev/zero', mode: LibmagicRb::MAGIC_NONE)    #=> "character special (1/5)"
+LibmagicRb.check(file: '/', mode: LibmagicRb::MAGIC_NONE)    # => "directory"
+LibmagicRb.check(file: '/')    # => "inode/directory; charset=binary"
+```
+
+Optional:
++ You can use the db: keyword for a custom path. By default it's set to LibmagicRb::DB.
++ The mode is optional, by default it's `LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK`.
 
 Notes:
 + It's really **mandatory** to close the cookie (`cookie.close()`) when you are done with the cookie. Otherwise, you rely on the GC and that can cause various problems.
