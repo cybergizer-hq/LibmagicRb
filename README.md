@@ -8,19 +8,19 @@ On Linux, you need to install libmagic.
 ##### Arch:
 
 ```
-# pacman -S file gcc
+# pacman -S file gcc make
 ```
 
 #### Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS:
 
 ```
-# apt install libmagic-dev ruby-dev gcc
+# apt install libmagic-dev ruby-dev gcc make
 ```
 
 #### Fedora:
 
 ```
-# yum install file-devel ruby-devel gcc
+# yum install file-devel ruby-devel gcc make
 ```
 
 Mac is currently not supported but may support in the future.
