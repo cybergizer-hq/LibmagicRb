@@ -3,8 +3,6 @@
 #include <unistd.h>
 #include "ruby.h"
 
-// MAGIC_MIME | MAGIC_CHECK | MAGIC_SYMLINK
-
 /*
 * LibmagicRB Header files
 */
@@ -152,9 +150,9 @@ void Init_main() {
 	rb_global_variable(&rb_eIsDirError) ;
 	rb_global_variable(&rb_eFileClosedError) ;
 
-	// /*
-	// * Libmagic Errors
-	// */
+	/*
+	* Libmagic Errors
+	*/
 	VALUE cLibmagicRb = rb_define_class("LibmagicRb", rb_cObject) ;
 
 	rb_eFileNotFoundError = rb_define_class_under(cLibmagicRb, "FileNotFound", rb_eRuntimeError) ;
@@ -173,7 +171,6 @@ void Init_main() {
 	sprintf(version, "%0.2f", magic_version() / 100.0) ;
 	rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(version)) ;
 
-	////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	* Singleton Methods
 	*/
