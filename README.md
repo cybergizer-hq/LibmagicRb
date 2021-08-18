@@ -7,19 +7,19 @@ Welcome to your new gem! In this directory, you'll find the files you need to be
 ## Pre-Installation
 On Linux, you need to install libmagic.
 
-Arch:
+##### Arch:
 
 ```
 # pacman -S file
 ```
 
-Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS:
+#### Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS:
 
 ```
 # apt install libmagic-dev
 ```
 
-Fedora:
+#### Fedora:
 
 ```
 # yum install file-devel
@@ -99,9 +99,10 @@ cookie.closed?() # => true
 ```
 
 Notes:
-+ It's really **mandatory** to close the cookie (`cookie.close()`). Otherwise, you rely on the GC and can various problems.
++ It's really **mandatory** to close the cookie (`cookie.close()`) when you are done with the cookie. Otherwise, you rely on the GC and can various problems.
+  You can't also use the file after it's closed.
 + You can change the file and db on the fly. But you can't change the mode.
-+ To list all the modes, please refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html)
++ To list all the modes, please refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html).
 
 ### Parameters
 
@@ -122,13 +123,22 @@ cookie.setparam(LibmagicRb::MAGIC_PARAM_REGEX_MAX, 2 ** 14) # => 16384; but can 
 + Cookie setparam returns the value after getting the param as well. So you don't need to confirm by calling getparam() again.
 + The maximum size depends on the parameter. But the value that can be passed should not be more than 2 ** 32.
 
+## Errors
+The following errors are implemented and raised on appropriate situation:
+
+1. LibmagicRb::FileNotFound: When the file is not found.
+2. LibmagicRb::FileUnreadable: When the file is unreadable.
+3. LibmagicRb::InvalidDBError: When the database given is invalid.
+4. LibmagicRb::IsDirError: When the database path is a directory.
+5. LibmagicRb::FileClosedError: When the file is already closed (closed?()) but you are trying to access the cookie.
+
 ## Development
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at [https://github.com/cybergizer-hq/LibmagicRb](https://github.com/cybergizer-hq/LibmagicRb) This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/libmagic_rb/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at [https://github.com/cybergizer-hq/LibmagicRb](https://github.com/cybergizer-hq/LibmagicRb) This project is intended to be a safe, welcoming space for collaboration.
 
 ## License
 
