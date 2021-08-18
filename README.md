@@ -5,22 +5,28 @@ It uses native extensions and it's quite performant.
 ## Pre-Installation
 On Linux, you need to install libmagic.
 
-##### Arch:
+##### Arch
 
 ```
 # pacman -S file gcc make
 ```
 
-#### Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS:
+#### Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS
 
 ```
 # apt install libmagic-dev ruby-dev gcc make
 ```
 
-#### Fedora:
+#### Fedora
 
 ```
 # yum install file-devel ruby-devel gcc make
+```
+
+#### OpenSUSE
+
+```
+zypper in ruby ruby-devel file-devel gcc make
 ```
 
 Mac is currently not supported but may support in the future.
