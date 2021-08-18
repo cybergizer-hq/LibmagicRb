@@ -144,6 +144,7 @@ VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {
 VALUE initAlloc(volatile VALUE self) {
 	magic_t *cookie ;
 	cookie = malloc(sizeof(*cookie)) ;
+	*cookie = magic_open(0) ;
 
 	return TypedData_Wrap_Struct(self, &fileType, cookie) ;
 }
