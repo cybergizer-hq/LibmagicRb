@@ -42,8 +42,8 @@ static rb_data_type_t fileType = {
 	.flags = RUBY_TYPED_FREE_IMMEDIATELY,
 } ;
 
-#include "func.h"
 #include "validations.h"
+#include "func.h"
 
 VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 	if(!RB_TYPE_P(args, T_HASH)) {
@@ -53,12 +53,14 @@ VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 	// Database Path
 	VALUE argDBPath = rb_hash_aref(args, ID2SYM(rb_intern("db"))) ;
 
+	char *databasePath ;
 	if (RB_TYPE_P(argDBPath, T_NIL)) {
-		rb_raise(rb_eArgError, "Expected `db:\" key as a string, got nil instead") ;
+		databasePath = NULL ;
 	} else if (!RB_TYPE_P(argDBPath, T_STRING)) {
 		rb_raise(rb_eArgError, "Database name must be an instance of String.") ;
+	} else {
+		databasePath = StringValuePtr(argDBPath) ;
 	}
-	char *databasePath = StringValuePtr(argDBPath) ;
 
 	// File path
 	VALUE argFilePath = rb_hash_aref(args, ID2SYM(rb_intern("file"))) ;
@@ -87,7 +89,10 @@ VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 	// Raises ruby error which will return.
 	fileReadable(checkPath) ;
 
-	magic_validate_db(magic, databasePath) ;
+	if(databasePath) {
+		magic_validate_db(magic, databasePath) ;
+	}
+
 	magic_load(magic, databasePath) ;
 
 	const char *mt = magic_file(magic, checkPath) ;
@@ -105,12 +110,17 @@ VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {
 	}
 
 	VALUE argDBPath = rb_hash_aref(args, ID2SYM(rb_intern("db"))) ;
+
+	char *databasePath ;
 	if (RB_TYPE_P(argDBPath, T_NIL)) {
-		rb_raise(rb_eArgError, "Expected `db:\" key as a string, got nil instead") ;
+		databasePath = NULL ;
+		rb_ivar_set(self, rb_intern("@db"), Qnil) ;
 	} else if (!RB_TYPE_P(argDBPath, T_STRING)) {
 		rb_raise(rb_eArgError, "Database name must be an instance of String.") ;
+	} else {
+		databasePath = StringValuePtr(argDBPath) ;
+		rb_ivar_set(self, rb_intern("@db"), argDBPath) ;
 	}
-	rb_ivar_set(self, rb_intern("@db"), argDBPath) ;
 
 	// File path
 	VALUE argFilePath = rb_hash_aref(args, ID2SYM(rb_intern("file"))) ;
@@ -182,7 +192,7 @@ void Init_main() {
 	*/
 	rb_define_singleton_method(cLibmagicRb, "check", _check_, 1) ;
 	rb_define_singleton_method(cLibmagicRb, "lsmodes", lsmodes, 0) ;
-	rb_define_singleton_method(cLibmagicRb, "lsparams", params, 0) ;
+	rb_define_singleton_method(cLibmagicRb, "lsparams", lsparams, 0) ;
 
 	/*
 	* Instance Methods

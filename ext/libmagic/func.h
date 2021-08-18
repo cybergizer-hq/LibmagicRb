@@ -8,14 +8,21 @@ VALUE _closeGlobal_(volatile VALUE self) {
 }
 
 VALUE _loadGlobal_(volatile VALUE self, volatile VALUE dbPath) {
-	char *databasePath = StringValuePtr(dbPath) ;
+	char *databasePath = NULL ;
+
+	if (RB_TYPE_P(dbPath, T_STRING)) {
+		databasePath = StringValuePtr(dbPath) ;
+		rb_iv_set(self, "@db", dbPath) ;
+	} else if(RB_TYPE_P(dbPath, T_STRING)) {
+		rb_iv_set(self, "@db", Qnil) ;
+	}
 
 	// Check if the database is a valid file or not
 	// Raises ruby error which will return.
 	RB_UNWRAP(cookie) ;
 
-	magic_validate_db(*cookie, databasePath) ;
-	magic_load(cookie, databasePath) ;
+	if(databasePath) magic_validate_db(*cookie, databasePath) ;
+	magic_load(*cookie, databasePath) ;
 
 	return self ;
 }
@@ -25,13 +32,17 @@ VALUE _checkGlobal_(volatile VALUE self) {
 
 	// Database path
 	VALUE db = rb_iv_get(self, "@db") ;
-	char *database = StringValuePtr(db) ;
+
+	char *database = NULL ;
+	if(RB_TYPE_P(db, T_STRING)) {
+		database = StringValuePtr(db) ;
+	}
 
 	// File path
 	VALUE f = rb_iv_get(self, "@file") ;
 	char *file = StringValuePtr(f) ;
 
-	magic_validate_db(*cookie, database) ;
+	if(database) magic_validate_db(*cookie, database) ;
 	magic_load(*cookie, database) ;
 
 	fileReadable(file) ;
