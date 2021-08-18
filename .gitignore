@@ -1,0 +1,14 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# Prebuilt extensions
+/ext/libmagic/*.o
+/ext/libmagic/*.so
+/ext/libmagic/Makefile
+/ext/libmagic/mkmf.log
