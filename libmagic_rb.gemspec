@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 	s.homepage = "https://github.com/Cybergizer-hq/libmagic_rb/"
 	s.license = "MIT"
 	s.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
-	s.files = Dir.glob(%w(exe/** lib/**/*.rb ext/**/*.{c,rb,h} bin/** data/magic.mgc LICENSE.txt))
+	s.files = Dir.glob(%w(exe/** lib/**/*.rb ext/**/*.{c,rb,h} bin/** LICENSE.txt))
 	s.executables = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
 	s.extensions = Dir.glob("ext/**/extconf.rb")
 	s.require_paths = ["lib"]
