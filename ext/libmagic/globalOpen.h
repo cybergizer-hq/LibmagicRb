@@ -10,8 +10,8 @@ VALUE _closeGlobal_(volatile VALUE self) {
 VALUE _loadGlobal_(volatile VALUE self, volatile VALUE dbPath) {
 	char *databasePath = StringValuePtr(dbPath) ;
 
-	// // Check if the database is a valid file or not
-	// // Raises ruby error which will return.
+	// Check if the database is a valid file or not
+	// Raises ruby error which will return.
 	RB_UNWRAP(cookie) ;
 
 	magic_validate_db(*cookie, databasePath) ;
@@ -43,8 +43,9 @@ VALUE _getParamGlobal_(volatile VALUE self, volatile VALUE param) {
 
 	unsigned int _param = NUM2UINT(param) ;
 	unsigned long value ;
-	magic_getparam(*cookie, _param, &value) ;
 
+	int status = magic_getparam(*cookie, _param, &value) ;
+	if (status) return Qnil ;
 	return ULONG2NUM(value) ;
 }
 
@@ -57,7 +58,9 @@ VALUE _setParamGlobal_(volatile VALUE self, volatile VALUE param, volatile VALUE
 	unsigned long value ;
 	magic_setparam(*cookie, _param, &_paramVal) ;
 
-	magic_getparam(*cookie, _param, &value) ;
+	int status = magic_getparam(*cookie, _param, &value) ;
+
+	if (status) return Qnil ;
 	return ULONG2NUM((int)value) ;
 }
 
