@@ -128,7 +128,26 @@ Notes:
 + You can change the file and db on the fly. But you can't change the mode. The mode can be assigned only with LibmagicRb.new(db: ..., file: ..., mode: ...)
 + To list all the modes, please refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html).
 
+### Open Modes
+Files can be opened in various modes. You can use this short hand to see the supported modes:
+
+```
+LibmagicRb.lsmodes    # => {:MAGIC_NONE=>0, :MAGIC_DEBUG=>1, :MAGIC_SYMLINK=>2, :MAGIC_COMPRESS=>4, :MAGIC_DEVICES=>8, :MAGIC_MIME_TYPE=>16, :MAGIC_MIME_ENCODING=>1024, :MAGIC_MIME=>1040, :MAGIC_CONTINUE=>32, :MAGIC_CHECK=>64, :MAGIC_PRESERVE_ATIME=>128, :MAGIC_RAW=>256, :MAGIC_ERROR=>512, :MAGIC_APPLE=>2048, :MAGIC_EXTENSION=>16777216, :MAGIC_COMPRESS_TRANSP=>33554432, :MAGIC_NO_CHECK_APPTYPE=>32768, :MAGIC_NO_CHECK_CDF=>262144, :MAGIC_NO_CHECK_COMPRESS=>4096, :MAGIC_NO_CHECK_ELF=>65536, :MAGIC_NO_CHECK_ENCODING=>2097152, :MAGIC_NO_CHECK_SOFT=>16384, :MAGIC_NO_CHECK_TAR=>8192, :MAGIC_NO_CHECK_TEXT=>131072, :MAGIC_NO_CHECK_TOKENS=>1048576, :MAGIC_NO_CHECK_CSV=>524288, :MAGIC_NO_CHECK_JSON=>4194304}
+```
+
+Note:
++ Some keys can be missing or can have modified values, depending on your libmagic version.
+
 ### Parameters
+
+#### Listing parameters
+
+```
+LibmagicRb.lsparams    # => {:MAGIC_PARAM_INDIR_MAX=>0, :MAGIC_PARAM_NAME_MAX=>1, :MAGIC_PARAM_ELF_NOTES_MAX=>4, :MAGIC_PARAM_ELF_PHNUM_MAX=>2, :MAGIC_PARAM_ELF_SHNUM_MAX=>3, :MAGIC_PARAM_REGEX_MAX=>5, :MAGIC_PARAM_BYTES_MAX=>6}
+```
+
+Note:
++ Some keys can be missing or can have modified values, depending on your libmagic version.
 
 #### Getting parameters
 
