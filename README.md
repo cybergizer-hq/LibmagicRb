@@ -3,9 +3,21 @@ Adds ability to check mime-type of a file using the libmagic ([magic(4)](https:/
 It uses native extensions and it's quite performant.
 
 ## Pre-Installation
-On Linux, you need to install libmagic.
+On Linux, you need to install libmagic. The version we recommend is at least 5.36.
+But if you have an older version of libmagic, it will compile and work flawlessly but with a few caveats:
 
-##### Arch
++ Many constants (modes and params) will be not defined
++ LibmagicRb::MAGIC_VERSION constant will be set to 0.
++ Few methods will not work.
+  some methods that can return a String or Integer will return nil (like setparam and getparam).
+
+[ Do note that the minimum tested version is 5.11, older than that may fail to compile the gem ]
+
+You also need Ruby > 1.9.0 in order to run this gem.
+
+With that info in mind, let's continue to the installation part for your Linux distributions...
+
+#### Arch
 
 ```
 # pacman -S file gcc make
