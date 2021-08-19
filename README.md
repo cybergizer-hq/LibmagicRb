@@ -17,19 +17,19 @@ You also need Ruby > 1.9.0 in order to run this gem.
 
 With that info in mind, let's continue to the installation part for your Linux distributions...
 
-#### Arch
+#### Arch / Manjaro / Archlabs & other Arch based Linux
 
 ```
 # pacman -S file gcc make
 ```
 
-#### Debian / Ubuntu / Linux Mint / Kali / ParrotOS / RaspberryPi OS
+#### Debian / Ubuntu / Linux Mint / RaspberryPi OS & other Debian based Linux
 
 ```
 # apt install libmagic-dev ruby-dev gcc make
 ```
 
-#### Fedora
+#### Fedora / Amazon Linux / CentOS & Other RedHat based Linux
 
 ```
 # yum install file-devel ruby-devel gcc make
@@ -177,18 +177,19 @@ cookie.setparam(LibmagicRb::MAGIC_PARAM_REGEX_MAX, 2 ** 14) # => 16384; but can 
 
 #### Notes:
 
-+ To get the parameters, you can refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html).
-+ Cookie setparam returns the value after getting the param as well. So you don't need to confirm by calling getparam() again.
++ To get the parameters, you can run `LibmagicRb.lsparams()` for description, please refer to the [man page](https://man7.org/linux/man-pages/man3/magic_getflags.3.html).
++ `cookie.setparam()` returns the value after getting the param as well. So you don't need to confirm by calling getparam() again.
 + The maximum size depends on the parameter. But the value that can be passed should not be more than 2 ** 32.
++ On older versions of libmagic, where the function isn't available, both getparam() and setparam() will perform no operations, and return nil!
 
 ## Errors
 The following errors are implemented and raised on appropriate situation:
 
-1. LibmagicRb::FileNotFound: When the file is not found.
-2. LibmagicRb::FileUnreadable: When the file is unreadable.
-3. LibmagicRb::InvalidDBError: When the database given is invalid.
-4. LibmagicRb::IsDirError: When the database path is a directory.
-5. LibmagicRb::FileClosedError: When the file is already closed (closed?()) but you are trying to access the cookie.
+1. `LibmagicRb::FileNotFound`: When the file is not found.
+2. `LibmagicRb::FileUnreadable`: When the file is unreadable.
+3. `LibmagicRb::InvalidDBError`: When the database given is invalid.
+4. `LibmagicRb::IsDirError`: When the database path is a directory.
+5. `LibmagicRb::FileClosedError`: When the file is already closed (closed?()) but you are trying to access the cookie.
 
 ## Development
 
