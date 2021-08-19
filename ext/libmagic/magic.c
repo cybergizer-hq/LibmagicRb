@@ -10,6 +10,10 @@
 #include "params.h"
 #include "definitions.h"
 
+#ifndef MAGIC_VERSION
+#define MAGIC_VERSION 0
+#endif
+
 /*
 * Errors
 */
@@ -111,14 +115,11 @@ VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {
 
 	VALUE argDBPath = rb_hash_aref(args, ID2SYM(rb_intern("db"))) ;
 
-	char *databasePath ;
 	if (RB_TYPE_P(argDBPath, T_NIL)) {
-		databasePath = NULL ;
 		rb_ivar_set(self, rb_intern("@db"), Qnil) ;
 	} else if (!RB_TYPE_P(argDBPath, T_STRING)) {
 		rb_raise(rb_eArgError, "Database name must be an instance of String.") ;
 	} else {
-		databasePath = StringValuePtr(argDBPath) ;
 		rb_ivar_set(self, rb_intern("@db"), argDBPath) ;
 	}
 
@@ -183,9 +184,13 @@ void Init_main() {
 	modes(cLibmagicRb) ;
 	params(cLibmagicRb) ;
 
-	char version[6] ;
-	sprintf(version, "%0.2f", magic_version() / 100.0) ;
-	rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(version)) ;
+	#if MAGIC_VERSION > 525
+		char version[6] ;
+		sprintf(version, "%0.2f", magic_version() / 100.0) ;
+		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(version)) ;
+	#else
+		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(0)) ;
+	#endif
 
 	/*
 	* Singleton Methods

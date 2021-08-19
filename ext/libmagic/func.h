@@ -52,29 +52,37 @@ VALUE _checkGlobal_(volatile VALUE self) {
 }
 
 VALUE _getParamGlobal_(volatile VALUE self, volatile VALUE param) {
-	RB_UNWRAP(cookie) ;
+	#if MAGIC_VERSION > 525
+		RB_UNWRAP(cookie) ;
 
-	unsigned int _param = NUM2UINT(param) ;
-	unsigned long value ;
+		unsigned int _param = NUM2UINT(param) ;
+		unsigned long value ;
 
-	int status = magic_getparam(*cookie, _param, &value) ;
-	if (status) return Qnil ;
-	return ULONG2NUM(value) ;
+		int status = magic_getparam(*cookie, _param, &value) ;
+		if (status) return Qnil ;
+		return ULONG2NUM(value) ;
+	#else
+		return Qnil ;
+	#endif
 }
 
 VALUE _setParamGlobal_(volatile VALUE self, volatile VALUE param, volatile VALUE paramVal) {
-	unsigned int _param = NUM2UINT(param) ;
-	unsigned long _paramVal = NUM2ULONG(paramVal) ;
+	#if MAGIC_VERSION > 525
+		unsigned int _param = NUM2UINT(param) ;
+		unsigned long _paramVal = NUM2ULONG(paramVal) ;
 
-	RB_UNWRAP(cookie) ;
+		RB_UNWRAP(cookie) ;
 
-	unsigned long value ;
-	magic_setparam(*cookie, _param, &_paramVal) ;
+		unsigned long value ;
+		magic_setparam(*cookie, _param, &_paramVal) ;
 
-	int status = magic_getparam(*cookie, _param, &value) ;
+		int status = magic_getparam(*cookie, _param, &value) ;
+		if (status) return Qnil ;
 
-	if (status) return Qnil ;
-	return ULONG2NUM((int)value) ;
+		return ULONG2NUM((int)value) ;
+	#else
+		return Qnil ;
+	#endif
 }
 
 VALUE _bufferGlobal_(volatile VALUE self, volatile VALUE string) {
