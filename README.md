@@ -55,11 +55,10 @@ $ gem install libmagic_rb
 The target of this gem is to add mime-type checking easily.
 
 Using the LibmagicRb class we can check the mime type, EXIF data and other information of a file.
-This gem packs the compiled magic database as well.
 
 To check a file, you need to pass a hash argument to the FilemagicRb.new():
 
-1. db: Path to the Database (String) (To use the internal database packed by this app, use LibmagicRb::DB)
+1. db: Path to the Database (String)
 2. file: A file to check (String)
 3. mode: Modes of the file (Integer) (Optional, defaults to `LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK`)
 
@@ -69,7 +68,6 @@ To check a file, you need to pass a hash argument to the FilemagicRb.new():
 require 'libmagic_rb'
 
 cookie = LibmagicRb.new(
-    db: LibmagicRb::DB,
     file: '/usr/share/backgrounds/myimage.webp',
     mode: LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK
 )
@@ -80,19 +78,22 @@ p cookie # =>    #<LibmagicRb:0x000055cf96d8f868 @db="/home/sourav/.gem/ruby/3.0
 cookie.file = '/usr/share/backgrounds/vienna-5164602.jpg'
 
 p cookie.file    # => "/usr/share/backgrounds/vienna-5164602.jpg"
-p cookie.db    # => "/home/cybergizer/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc"
+p cookie.db    # => nil
 
 cookie.check()    # => image/jpeg; charset=binary
 cookie.close()    # => #<LibmagicRb:0x000055fa77699818 @closed=true, @db="/home/sourav/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc", @file="/usr/share/backgrounds/vienna-5164602.jpg", @mode=1106>
 cookie.closed?() # => true
 ```
 
+When the `db:` key is `nil`, it will use NULL as the database file - which gets the database automatically from the system.
+You can omit `db: nil` as well for a nil value.
+
 ### Example 2:
 ```
 require 'libmagic_rb'
 
 cookie = LibmagicRb.new(
-    db: LibmagicRb::DB,
+    db: '/usr/share/file/magic.mgc',
     file: '/usr/share/backgrounds/vienna-5164602.jpg',
     mode: LibmagicRb::NONE
 )
@@ -101,6 +102,10 @@ cookie.check()    # => "JPEG image data, JFIF standard 1.01, resolution (DPI), d
 cookie.close()    # => #<LibmagicRb:0x000055fa77699818 @closed=true, @db="/home/sourav/.gem/ruby/3.0.0/gems/libmagic_rb-0.1.0/data/magic.mgc", @file="/usr/share/backgrounds/vienna-5164602.jpg", @mode=1106>
 cookie.closed?() # => true
 ```
+Surely, you can automatically get db path if you pass nil to it.  But If you happen to remove the database file or you are unsure, `db: nil` will not work (so will linux's file command).
+Specifying the path gives you the privilege to pass a locally stored database.
+
+Do note that there should be version match for the magic files, otherwise it will raise `LibmagicRb::InvalidDBError`.
 
 ### Example 3:
 LibmagicRb also provides a handy singleton method `:check`. You just need to pass the filename and modes:
@@ -114,8 +119,8 @@ LibmagicRb.check(file: '/')    # => "inode/directory; charset=binary"
 ```
 
 Optional:
-+ You can use the db: keyword for a custom path. By default it's set to LibmagicRb::DB.
-+ The mode is optional, by default it's `LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK`.
++ You can use the db: keyword for a custom path. By default it's set to nil. And as mentioned above, nil = automatically find the db from the system.
++ The `mode:` key is optional, by default it's set to `LibmagicRb::MAGIC_MIME | LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK`.
 
 Notes:
 + It's really **mandatory** to close the cookie (`cookie.close()`) when you are done with the cookie. Otherwise, you rely on the GC and that can cause various problems.
