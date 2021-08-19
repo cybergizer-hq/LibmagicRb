@@ -146,7 +146,7 @@ VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {
 	rb_ivar_set(self, rb_intern("@closed"), Qfalse) ;
 
 	RB_UNWRAP(cookie) ;
-	*cookie = magic_open(modes) ;
+	magic_setflags(*cookie, modes) ;
 
 	return self ;
 }
