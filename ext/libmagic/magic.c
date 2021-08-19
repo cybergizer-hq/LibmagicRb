@@ -189,7 +189,7 @@ void Init_main() {
 		sprintf(version, "%0.2f", magic_version() / 100.0) ;
 		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(version)) ;
 	#else
-		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(0)) ;
+		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr("0")) ;
 	#endif
 
 	/*
