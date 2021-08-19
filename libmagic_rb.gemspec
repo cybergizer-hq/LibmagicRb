@@ -7,10 +7,10 @@ Gem::Specification.new do |s|
 	s.email = %w(sourav.goswami@cybergizer.com)
 	s.summary = %q(Check filetype with libmagic)
 	s.description = s.summary
-	s.homepage = "https://github.com/Cybergizer-hq/libmagic_rb/"
+	s.homepage = "https://github.com/cybergizer-hq/LibmagicRb/"
 	s.license = "MIT"
 	s.required_ruby_version = Gem::Requirement.new(">= 1.9.0")
-	s.files = Dir.glob(%w(exe/** lib/**/*.rb ext/**/*.{c,rb,h} bin/** LICENSE.txt))
+	s.files = Dir.glob(%w(exe/** lib/**/*.rb ext/**/*.{c,rb,h} bin/** README.md LICENSE.txt))
 	s.executables = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
 	s.extensions = Dir.glob("ext/**/extconf.rb")
 	s.require_paths = ["lib"]
