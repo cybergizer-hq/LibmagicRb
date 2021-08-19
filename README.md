@@ -63,6 +63,9 @@ Or install it yourself as:
 $ gem install libmagic_rb
 ```
 
+We recommend getting the gem only from Rubygems.org. Do not download this repo as zip, compile to install the gem.
+A rubygem version is released after various tests. Any branch here including Master branch can be unstable can even segfault your app. You've been warned!
+
 ## Usage
 The target of this gem is to add mime-type checking easily.
 
