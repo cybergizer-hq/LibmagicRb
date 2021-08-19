@@ -105,8 +105,7 @@ VALUE _setflagsGlobal_(volatile VALUE self, volatile VALUE flags) {
 	if (status) {
 		return Qnil ;
 	} else {
-		int f = magic_getflags(*cookie) ;
-		rb_ivar_set(self, rb_intern("@mode"), INT2FIX(f)) ;
-		return INT2FIX(f) ;
+		rb_ivar_set(self, rb_intern("@mode"), flags) ;
+		return flags ;
 	}
 }
