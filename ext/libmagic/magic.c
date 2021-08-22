@@ -1,6 +1,7 @@
 #include <magic.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include "ruby.h"
 
 /*
@@ -43,7 +44,10 @@ static rb_data_type_t fileType = {
 	},
 
 	.data = NULL,
-	.flags = RUBY_TYPED_FREE_IMMEDIATELY,
+
+	#ifdef RUBY_TYPED_FREE_IMMEDIATELY
+	.flags = RUBY_TYPED_FREE_IMMEDIATELY
+	#endif
 } ;
 
 #include "validations.h"
