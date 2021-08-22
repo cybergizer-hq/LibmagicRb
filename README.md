@@ -17,22 +17,22 @@ You also need Ruby > 1.9.0 in order to run this gem.
 
 With that info in mind, let's continue to the installation part for your Linux distributions...
 
-#### Arch / Manjaro / Archlabs & other Arch based Linux
+#### Arch / Manjaro / Archlabs / Garuda Linux / Hefftor Linux & other Arch Based Linux
 
 ```
-# pacman -S file gcc make
+# pacman -S ruby file gcc make --needed
 ```
 
-#### Debian / Ubuntu / Linux Mint / RaspberryPi OS & other Debian based Linux
+#### Debian / Ubuntu / Linux Mint / Deepin / Pop!_OS / RaspberryPi OS & other Debian Based Linux
 
 ```
-# apt install libmagic-dev ruby-dev gcc make
+# apt install ruby libmagic-dev ruby-dev gcc make
 ```
 
-#### Fedora / Amazon Linux / CentOS & Other RedHat based Linux
+#### Fedora / Amazon Linux / CentOS & Other RedHat Based Linux
 
 ```
-# yum install file-devel ruby-devel gcc make
+# yum install ruby file-devel ruby-devel gcc make
 ```
 
 #### OpenSUSE
@@ -41,7 +41,17 @@ With that info in mind, let's continue to the installation part for your Linux d
 zypper in ruby ruby-devel file-devel gcc make
 ```
 
-Mac is currently not supported but may support in the future.
+#### DragonflyBSD / FreeBSD
+
+Versions upto 0.1.2 is tested on DragonflyBSD (Version 6.0-SYNTH).
+
+```
+pkg install ruby devel/ruby-gems gcc gmake
+```
+
+#### Mac / Windows
+
+Mac and Windows are currently not tested, hence the support is unknown.
 
 ## Installation
 
