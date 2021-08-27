@@ -38,7 +38,15 @@ With that info in mind, let's continue to the installation part for your Linux d
 #### OpenSUSE
 
 ```
-zypper in ruby ruby-devel file-devel gcc make
+# zypper in ruby ruby-devel file-devel gcc make
+```
+
+#### Gentoo
+
+There are already make, and magic.h available for Gentoo. You just need Ruby:
+
+```
+# emerge --ask dev-lang/ruby
 ```
 
 #### DragonflyBSD / FreeBSD
@@ -46,7 +54,7 @@ zypper in ruby ruby-devel file-devel gcc make
 Versions upto 0.1.2 is tested on DragonflyBSD (Version 6.0-SYNTH).
 
 ```
-pkg install ruby devel/ruby-gems gcc gmake
+# pkg install ruby devel/ruby-gems gcc gmake
 ```
 
 #### Mac / Windows
