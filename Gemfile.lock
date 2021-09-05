@@ -1,12 +1,28 @@
 PATH
   remote: .
   specs:
-    libmagic_rb (0.1.1)
+    libmagic_rb (0.1.2.pre.alpha)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    diff-lcs (1.4.4)
     rake (13.0.6)
+    rake-compiler (1.1.1)
+      rake
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.2)
 
 PLATFORMS
   x86_64-linux
@@ -14,6 +30,8 @@ PLATFORMS
 DEPENDENCIES
   libmagic_rb!
   rake (~> 13.0)
+  rake-compiler
+  rspec
 
 BUNDLED WITH
    2.2.25
