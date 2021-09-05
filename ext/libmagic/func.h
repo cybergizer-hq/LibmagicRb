@@ -174,7 +174,8 @@ VALUE _listGlobal_(volatile VALUE self) {
 	RB_UNWRAP(cookie) ;
 
 	VALUE db = rb_iv_get(self, "@db") ;
-	char *database = StringValuePtr(db) ;
+
+	char *database = RB_TYPE_P(db, T_STRING) ? StringValuePtr(db) : NULL ;
 
 	int status = magic_list(*cookie, database) ;
 	return INT2FIX(status) ;
