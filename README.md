@@ -57,9 +57,22 @@ Versions upto 0.1.2 is tested on DragonflyBSD (Version 6.0-SYNTH).
 # pkg install ruby devel/ruby-gems gcc gmake
 ```
 
-#### Mac / Windows
+#### MacOS
 
-Mac and Windows are currently not tested, hence the support is unknown.
+You can install libmagic with homebrew:
+
+```
+$ brew install libmagic
+
+# if the link is already created is going to fail, don't worry about that
+$ brew link libmagic
+```
+
+[ Source: [ eparreno/gist:1845561 ](https://gist.github.com/eparreno/1845561) ]
+
+#### Windows
+
+Windows is currently not tested, hence the support is unknown.
 
 ## Installation
 
