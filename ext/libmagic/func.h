@@ -161,6 +161,23 @@ VALUE _setParamGlobal_(volatile VALUE self, volatile VALUE param, volatile VALUE
 	#endif
 }
 
+/*
+	Returns a textual description of the contents of the buffer argument with length bytes size.
+
+	For example:
+
+		> cookie = LibmagicRb.new(file: '.')
+		# => #<LibmagicRb:0x00005582de0d1bf8 @closed=false, @db=nil, @file=".", @mode=1106>
+
+		> cookie.magic_buffer("%PDF-1.3\r\n")
+		# => "application/pdf; charset=us-ascii"
+
+		> cookie.close
+		# => #<LibmagicRb:0x00005582de0d1bf8 @closed=true, @db=nil, @file=".", @mode=1106>
+
+	Returns either String or nil.
+*/
+
 VALUE _bufferGlobal_(volatile VALUE self, volatile VALUE string) {
 	RB_UNWRAP(cookie) ;
 
