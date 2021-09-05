@@ -199,6 +199,36 @@ VALUE _bufferGlobal_(volatile VALUE self, volatile VALUE string) {
 	return buf ? rb_str_new_cstr(buf) : Qnil ;
 }
 
+/*
+	Dumps all magic entries in a human
+	readable format, dumping first the entries that are matched against
+	binary files and then the ones that match text files.
+
+	For example:
+
+
+		> cookie = LibmagicRb.new(file: '.')
+		# => #<LibmagicRb:0x000055cf280a9b30 @closed=false, @db=nil, @file=".", @mode=1106>
+
+		> cookie.magic_list
+		Set 0:
+		Binary patterns:
+		Strength = 500@47: Biosig/Brainvision Marker file [biosig/brainvision]
+		Strength = 490@122: Biosig/TMSiLOG [biosig/tmsilog]
+		Strength = 461@127: Biosig/SYNERGY [biosig/synergy]
+		Strength = 460@46: Biosig/Brainvision V-Amp file []
+		Strength = 410@45: Biosig/Brainvision data file []
+		Strength = 380@6: OpenSSH private key []
+		Strength = 370@1266: Novell message librarian data []
+		.
+		.
+		.
+		# => 0
+
+		> cookie.close
+		=> #<LibmagicRb:0x000055cf280a9b30 @closed=true, @db=nil, @file=".", @mode=1106>
+*/
+
 VALUE _listGlobal_(volatile VALUE self) {
 	RB_UNWRAP(cookie) ;
 
