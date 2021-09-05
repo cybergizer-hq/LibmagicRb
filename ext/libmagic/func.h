@@ -167,7 +167,7 @@ VALUE _bufferGlobal_(volatile VALUE self, volatile VALUE string) {
 	char *buffer = StringValuePtr(string) ;
 	const char *buf = magic_buffer(*cookie, buffer, sizeof(buffer)) ;
 
-	return rb_str_new_cstr(buf) ;
+	return buf ? rb_str_new_cstr(buf) : Qnil ;
 }
 
 VALUE _listGlobal_(volatile VALUE self) {
