@@ -164,7 +164,7 @@ VALUE initAlloc(volatile VALUE self) {
 	return TypedData_Wrap_Struct(self, &fileType, cookie) ;
 }
 
-void Init_libmagic_rb() {
+void Init_main() {
 	rb_global_variable(&rb_eFileNotFoundError) ;
 	rb_global_variable(&rb_eFileNotReadableError) ;
 	rb_global_variable(&rb_eInvalidDBError) ;
