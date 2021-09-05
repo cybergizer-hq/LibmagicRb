@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    steps:
     - uses: actions/checkout@v2
     - name: Test LinuxStat with Ruby 2.3
       uses: ruby/setup-ruby@v1.59.1
