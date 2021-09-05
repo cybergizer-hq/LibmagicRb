@@ -225,6 +225,10 @@ void Init_main() {
 	/*
 	* Libmagic Errors
 	*/
+
+	/*
+		Adds ability to check mime-type of a file using the libmagic (magic(4)). It uses native extensions and it's quite performant.
+	*/
 	VALUE cLibmagicRb = rb_define_class("LibmagicRb", rb_cObject) ;
 
 	rb_eFileNotFoundError = rb_define_class_under(cLibmagicRb, "FileNotFound", rb_eRuntimeError) ;
@@ -239,9 +243,15 @@ void Init_main() {
 	modes(cLibmagicRb) ;
 	params(cLibmagicRb) ;
 
+
 	#if MAGIC_VERSION > 525
 		char version[6] ;
 		sprintf(version, "%0.2f", magic_version() / 100.0) ;
+
+		/*
+			LibmagicRb::MAGIC_VERSION returns the magic version of the library.
+			For older libmagic version, this can be undefined, so this method will return "0" instead.
+		*/
 		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr(version)) ;
 	#else
 		rb_define_const(cLibmagicRb, "MAGIC_VERSION", rb_str_new_cstr("0")) ;
