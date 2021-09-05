@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 module Bullet
-	@c = %W(\u2B53 \u2B1F \u2B22 \u2B23 ).map(&:freeze)
+	@c = %W(\u2B53 \u2B1F \u2B22 \u2B23 ).each(&:freeze)
 
 	def self.get() @c.rotate![0] end
 end
