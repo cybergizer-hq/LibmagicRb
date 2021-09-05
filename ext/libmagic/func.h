@@ -175,6 +175,8 @@ VALUE _setParamGlobal_(volatile VALUE self, volatile VALUE param, volatile VALUE
 		> cookie.close
 		# => #<LibmagicRb:0x00005582de0d1bf8 @closed=true, @db=nil, @file=".", @mode=1106>
 
+	Note that it automatically loads the database.
+
 	Returns either String or nil.
 */
 
@@ -202,9 +204,14 @@ VALUE _listGlobal_(volatile VALUE self) {
 
 	VALUE db = rb_iv_get(self, "@db") ;
 
-	char *database = RB_TYPE_P(db, T_STRING) ? StringValuePtr(db) : NULL ;
+	char *database = NULL ;
+	if (RB_TYPE_P(db, T_STRING)) {
+		database = StringValuePtr(db) ;
+	}
 
+	if(database) magic_validate_db(*cookie, database) ;
 	int status = magic_list(*cookie, database) ;
+
 	return INT2FIX(status) ;
 }
 
