@@ -53,7 +53,21 @@ static rb_data_type_t fileType = {
 #include "validations.h"
 #include "func.h"
 
-VALUE _check_(volatile VALUE obj, volatile VALUE args) {
+/*
+	Directly check a file with LibmagicRb, without creating any sort of cookies:
+
+		LibmagicRb.check(file: '/tmp/', db: '/usr/share/file/misc/magic.mgc', mode: LibmagicRb::MAGIC_CHECK) # => "sticky, directory"
+
+	[file] The key `file:` is the filename to check. Should be a string
+
+	[db] The key `db:` can be left as nil. Or you can give it the path of the current magic database.
+
+	[mode] The key `mode` can be any of the LibmagicRb.lsmodes().
+	To combine modes you can use `|`. For example:
+	`mode: LibmagicRb::MAGIC_CHECK | LibmagicRb::MAGIC_SYMLINK | Libmagic_MAGIC_MIME`
+	If `mode` key is nil, it will default to `MAGIC_MIME | MAGIC_CHECK | MAGIC_SYMLINK`
+*/
+static VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 	if(!RB_TYPE_P(args, T_HASH)) {
 		rb_raise(rb_eArgError, "Expected hash as argument.") ;
 	}
@@ -111,6 +125,43 @@ VALUE _check_(volatile VALUE obj, volatile VALUE args) {
 	return retVal ;
 }
 
+/*
+	Intializes a magic cookie that can be used multiple times.
+	The benefit of this is to assgign various cookies and change flags of each cookie.
+
+	For example:
+
+		> cookie = LibmagicRb.new(file: '/tmp')
+		# => #<LibmagicRb:0x000055810139f738 @closed=false, @db=nil, @file="/tmp", @mode=1106>
+
+		> cookie.check
+		# => "inode/directory; charset=binary"
+
+		> cookie.setflags(LibmagicRb::MAGIC_RAW)
+		# => 256
+
+		> cookie.check
+		# => "sticky, directory"
+
+		> cookie2 = LibmagicRb.new(file: '/usr/share/dict/words')
+		# => #<LibmagicRb:0x000055810190a060 @closed=false, @db=nil, @file="/usr/share/dict/words", @mode=1106>
+
+		> cookie2.check
+		# => "text/plain; charset=utf-8"
+
+		> cookie.close
+		# => #<LibmagicRb:0x000055810139f738 @closed=true, @db=nil, @file="/tmp", @mode=256>
+
+		> cookie.closed?
+		# => true
+
+		> cookie2.closed?
+		# => false
+
+	Here in this example, we can't use cookie, but cookie2 is a different magic_t wrapper, so we can continue using that.
+	Flags/modes applied to cookie, will not affect cookie2 as well. Think of them as totally different containers.
+	Of course, you must close cookies when you don't need them. Otherwise it can use memories unless GC is triggered.
+*/
 VALUE rb_libmagicRb_initialize(volatile VALUE self, volatile VALUE args) {
 	// Database Path
 	if(!RB_TYPE_P(args, T_HASH)) {
