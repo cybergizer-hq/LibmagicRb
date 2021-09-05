@@ -15,3 +15,5 @@
 
 # Binary blobs coming from rake-compiler
 /lib/**/*.so
+
+/.rspec_status
