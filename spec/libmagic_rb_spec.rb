@@ -69,6 +69,28 @@ RSpec.describe LibmagicRb do
 		cookie.mode = LibmagicRb::MAGIC_MIME_ENCODING
 		expect(cookie.check).to be == "binary"
 
+		cookie.file = __FILE__
+		cookie.setflags(LibmagicRb::MAGIC_RAW)
+		expect(cookie.check).to be == "Ruby script, ASCII text"
+
+		cookie.file = Dir.pwd
+		cookie.setflags(LibmagicRb::MAGIC_MIME_ENCODING)
+		expect(cookie.check).to be == "binary"
+
+		cookie.close
+	end
+
+	# Magic Buffer
+	it "#{Bullet.get} can change modes on  the fly" do
+		cookie = LibmagicRb.new(file: ?.)
+
+		buf = cookie.magic_buffer("%PDF-1.3\r\n")
+		expect(buf).to be == "application/pdf; charset=us-ascii"
+
+		cookie.setflags(LibmagicRb::MAGIC_RAW)
+		buf = cookie.magic_buffer("%PDF-1.3\r\n")
+		expect(buf).to be == "PDF document, version 1.3"
+
 		cookie.close
 	end
 
