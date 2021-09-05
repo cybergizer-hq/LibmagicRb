@@ -164,8 +164,18 @@ VALUE _setParamGlobal_(volatile VALUE self, volatile VALUE param, volatile VALUE
 VALUE _bufferGlobal_(volatile VALUE self, volatile VALUE string) {
 	RB_UNWRAP(cookie) ;
 
+	VALUE db = rb_iv_get(self, "@db") ;
+
+	char *database = NULL ;
+	if(RB_TYPE_P(db, T_STRING)) {
+		database = StringValuePtr(db) ;
+	}
+
+	if(database) magic_validate_db(*cookie, database) ;
+	magic_load(*cookie, database) ;
+
 	char *buffer = StringValuePtr(string) ;
-	const char *buf = magic_buffer(*cookie, buffer, sizeof(buffer)) ;
+	const char *buf = magic_buffer(*cookie, buffer, strlen(buffer)) ;
 
 	return buf ? rb_str_new_cstr(buf) : Qnil ;
 }
