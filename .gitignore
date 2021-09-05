@@ -12,3 +12,7 @@
 /ext/libmagic/*.so
 /ext/libmagic/Makefile
 /ext/libmagic/mkmf.log
+
+# Binary blobs coming from rake-compiler
+/lib/**/*.so
+/.rspec_status
