@@ -54,6 +54,22 @@ RSpec.describe LibmagicRb do
 	end
 
 	# Flags / Modes
+	it "#{Bullet.get} can change modes with setflags" do
+		cookie = LibmagicRb.new(file: ?.)
+
+		cookie.file = __FILE__
+		cookie.setflags(LibmagicRb::MAGIC_RAW)
+
+		check = cookie.check
+		expect(check == "Ruby module source, ASCII text" || check == "Ruby script, ASCII text").to be true
+
+		cookie.file = Dir.pwd
+		cookie.setflags(LibmagicRb::MAGIC_MIME_ENCODING)
+		expect(cookie.check).to be == "binary"
+
+		cookie.close
+	end
+
 	it "#{Bullet.get} can change modes on  the fly" do
 		cookie = LibmagicRb.new(file: ?.)
 		expect(cookie.check).to be == "inode/directory; charset=binary"
@@ -63,21 +79,13 @@ RSpec.describe LibmagicRb do
 
 		cookie.file = __FILE__
 		cookie.mode = LibmagicRb::MAGIC_RAW
-		expect(cookie.check).to be == "Ruby script, ASCII text"
+
+		check = cookie.check
+		expect(check == "Ruby module source, ASCII text" || check == "Ruby script, ASCII text").to be true
 
 		cookie.file = Dir.pwd
 		cookie.mode = LibmagicRb::MAGIC_MIME_ENCODING
 		expect(cookie.check).to be == "binary"
-
-		cookie.file = __FILE__
-		cookie.setflags(LibmagicRb::MAGIC_RAW)
-		expect(cookie.check).to be == "Ruby script, ASCII text"
-
-		cookie.file = Dir.pwd
-		cookie.setflags(LibmagicRb::MAGIC_MIME_ENCODING)
-		expect(cookie.check).to be == "binary"
-
-		cookie.close
 	end
 
 	# Magic Buffer
