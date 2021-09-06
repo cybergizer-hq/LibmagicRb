@@ -70,7 +70,7 @@ RSpec.describe LibmagicRb do
 		cookie.close
 	end
 
-	it "#{Bullet.get} can change modes on  the fly" do
+	it "#{Bullet.get} can change modes with mode= attribute writer" do
 		cookie = LibmagicRb.new(file: ?.)
 		expect(cookie.check).to be == "inode/directory; charset=binary"
 
@@ -89,7 +89,7 @@ RSpec.describe LibmagicRb do
 	end
 
 	# Magic Buffer
-	it "#{Bullet.get} can change modes on  the fly" do
+	it "#{Bullet.get} can check a string as magic buffer" do
 		cookie = LibmagicRb.new(file: ?.)
 
 		buf = cookie.magic_buffer("%PDF-1.3\r\n")
