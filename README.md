@@ -1,4 +1,5 @@
-# LibmagicRb
+# LibmagicRb [![Gem Version](https://badge.fury.io/rb/libmagic_rb.svg)](https://rubygems.org/gems/libmagic_rb) ![Workflow Status](https://github.com/cybergizer-hq/libmagicrb/workflows/LibmagicRb%20Test/badge.svg)
+
 Adds ability to check mime-type of a file using the libmagic ([magic(4)](https://man7.org/linux/man-pages/man4/magic.4.html)).
 It uses native extensions and it's quite performant.
 
