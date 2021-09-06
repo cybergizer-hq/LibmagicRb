@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class LibmagicRb
-	VERSION = "0.1.2-beta"
+	VERSION = "0.1.2-gamma"
 end
