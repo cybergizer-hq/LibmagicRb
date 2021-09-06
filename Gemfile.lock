@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    libmagic_rb (0.1.2.pre.alpha)
+    libmagic_rb (0.1.2)
 
 GEM
   remote: https://rubygems.org/
