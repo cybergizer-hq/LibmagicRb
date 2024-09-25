@@ -98,6 +98,10 @@ VALUE lsmodes(volatile VALUE obj) {
 	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_APPTYPE")), INT2FIX(MAGIC_NO_CHECK_APPTYPE));
 	#endif
 
+	#ifdef MAGIC_NO_COMPRESS_FORK
+	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_COMPRESS_FORK")), INT2FIX(MAGIC_NO_COMPRESS_FORK));
+	#endif
+
 	#ifdef MAGIC_NO_CHECK_CDF
 	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_CDF")), INT2FIX(MAGIC_NO_CHECK_CDF));
 	#endif
@@ -130,12 +134,16 @@ VALUE lsmodes(volatile VALUE obj) {
 	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_TOKENS")), INT2FIX(MAGIC_NO_CHECK_TOKENS));
 	#endif
 
+	#ifdef  MAGIC_NO_CHECK_JSON
+	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_JSON")), INT2FIX(MAGIC_NO_CHECK_JSON));
+	#endif
+
 	#ifdef  MAGIC_NO_CHECK_CSV
 	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_CSV")), INT2FIX(MAGIC_NO_CHECK_CSV));
 	#endif
 
-	#ifdef  MAGIC_NO_CHECK_CSV
-	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_JSON")), INT2FIX(MAGIC_NO_CHECK_JSON));
+	#ifdef  MAGIC_NO_CHECK_SIMH
+	rb_hash_aset(hash, ID2SYM(rb_intern("MAGIC_NO_CHECK_SIMH")), INT2FIX(MAGIC_NO_CHECK_SIMH));
 	#endif
 
 	return hash;
